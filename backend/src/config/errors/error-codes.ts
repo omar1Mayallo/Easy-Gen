@@ -2,6 +2,7 @@ export enum ValidationErrorCode {
   // Name Validation
   NAME_MUST_BE_STRING = 'NAME_MUST_BE_STRING',
   NAME_IS_REQUIRED = 'NAME_IS_REQUIRED',
+  NAME_MIN_LENGTH = 'NAME_MIN_LENGTH',
 
   // Email Validation
   EMAIL_MUST_BE_VALID = 'EMAIL_MUST_BE_VALID',
@@ -9,6 +10,7 @@ export enum ValidationErrorCode {
   // Password Validation
   PASSWORD_MUST_BE_STRING = 'PASSWORD_MUST_BE_STRING',
   PASSWORD_MIN_LENGTH = 'PASSWORD_MIN_LENGTH',
+  PASSWORD_REQUIREMENTS = 'PASSWORD_REQUIREMENTS',
 }
 
 export enum ErrorCode {

@@ -10,6 +10,8 @@ import {
   HttpCode,
   HttpStatus,
   Inject,
+  Request,
+  Patch,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -78,6 +80,60 @@ export class UserController {
   async findAll() {
     this.logger.info('Get all users endpoint called');
     return this.userService.findAll();
+  }
+
+  @Get('me')
+  @RestrictTo(RoleEnum.ADMIN, RoleEnum.USER)
+  @ApiOperation({ summary: 'Get current user profile (User or Admin)' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Current user profile',
+    type: CreateUserDto,
+  })
+  @ApiResponse({
+    status: HttpStatus.FORBIDDEN,
+    description: 'Forbidden - User or Admin role required',
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'User not found',
+  })
+  async getUserProfile(@Request() req: any) {
+    this.logger.info('Get user profile endpoint called', {
+      userId: req.user._id,
+    });
+    return this.userService.findOne(req.user._id);
+  }
+
+  @Patch('me')
+  @RestrictTo(RoleEnum.ADMIN, RoleEnum.USER)
+  @ApiOperation({ summary: 'Update current user profile (User or Admin)' })
+  @ApiBody({ type: UpdateUserDto })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'User profile updated successfully',
+    type: UpdateUserDto,
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'User not found',
+  })
+  @ApiResponse({
+    status: HttpStatus.FORBIDDEN,
+    description: 'Forbidden - User or Admin role required',
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Invalid input or email already exists',
+  })
+  async editUserProfile(
+    @Request() req: any,
+    @Body() updateUserDto: UpdateUserDto,
+  ) {
+    this.logger.info('Update user profile endpoint called', {
+      userId: req.user._id,
+    });
+    return this.userService.update(req.user._id, updateUserDto);
   }
 
   @Get(':id')

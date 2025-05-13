@@ -17,7 +17,7 @@ export class AuthService {
   ) {}
 
   async register(registerDto: RegisterDto): Promise<{ token: string }> {
-    const { email, role } = registerDto;
+    const { email } = registerDto;
     this.logger.info('Registering new user', { email });
 
     const existingUser = await this.userModel.findOne({ email });
@@ -36,11 +36,11 @@ export class AuthService {
     try {
       const user = await this.userModel.create({
         ...registerDto,
-        role: role || 'USER',
+        role: 'USER',
       });
       this.logger.debug('User registered', { userId: user._id });
 
-      const payload = { sub: user._id, email: user.email, role: user.role };
+      const payload = { sub: user._id };
       const token = this.jwtService.sign(payload);
       this.logger.debug('Token generated for user', { userId: user._id });
 
@@ -77,7 +77,7 @@ export class AuthService {
       );
     }
 
-    const payload = { sub: user._id, email: user.email, role: user.role };
+    const payload = { sub: user._id };
     const token = this.jwtService.sign(payload);
     this.logger.debug('User logged in, token generated', { userId: user._id });
 
