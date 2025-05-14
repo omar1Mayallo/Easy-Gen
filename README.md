@@ -131,7 +131,7 @@ JWT_EXPIRATION_DATE=1d
 
 ## 🎥 Demo
 
-Check out the live demo here: [Easy Generator Task](https://example.com)
+Check out the live demo here: [Easy Generator Video](https://drive.google.com/file/d/1XqeeMRZINQl4y3Ds9YLZMVdyTRdAfUYa/view?usp=sharing)
 
 ---
 
